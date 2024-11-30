@@ -13,6 +13,7 @@ from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
 
 # Load .env
+print("Loading environment variables...")
 load_dotenv()
 
 # Configure a file to persist the agent's CDP MPC Wallet Data.
@@ -36,6 +37,7 @@ def initialize_agent():
         # If there is a persisted agentic wallet, load it and pass to the CDP Agentkit Wrapper.
         values = {"cdp_wallet_data": wallet_data}
 
+    print("Initializing CdpAgentkitWrapper with values:", values)
     agentkit = CdpAgentkitWrapper(**values)
 
     # persist the agent's CDP MPC Wallet Data.
