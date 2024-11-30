@@ -40,7 +40,7 @@ wallet_data_file = "wallet_data.txt"
 
 def list_ollama_models():
     """Fetch and display available models from the Ollama API."""
-    response = requests.get("https://api.ollama.com/models")
+    response = requests.get("http://localhost:11434/models")
     if response.status_code == 200:
         models = response.json()
         print("\nAvailable Ollama models:")
