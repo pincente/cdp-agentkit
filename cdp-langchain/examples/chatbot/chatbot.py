@@ -16,9 +16,21 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 print("Loading environment variables...")
 load_dotenv()
 
-# Print environment variables
+# Print environment variables with additional checks
+cdp_api_key_private_key = os.getenv("CDP_API_KEY_PRIVATE_KEY")
+if cdp_api_key_private_key:
+    print("CDP_API_KEY_PRIVATE_KEY is loaded.")
+    try:
+        # Attempt to load the private key to check its validity
+        from cryptography.hazmat.primitives import serialization
+        serialization.load_pem_private_key(cdp_api_key_private_key.encode(), password=None)
+        print("CDP_API_KEY_PRIVATE_KEY is valid.")
+    except Exception as e:
+        print("Error loading CDP_API_KEY_PRIVATE_KEY:", e)
+else:
+    print("CDP_API_KEY_PRIVATE_KEY is not set.")
+
 print("CDP_API_KEY_NAME:", os.getenv("CDP_API_KEY_NAME"))
-print("CDP_API_KEY_PRIVATE_KEY:", os.getenv("CDP_API_KEY_PRIVATE_KEY"))
 print("OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
 print("NETWORK_ID:", os.getenv("NETWORK_ID"))
 wallet_data_file = "wallet_data.txt"
