@@ -73,7 +73,7 @@ def initialize_agent():
                 selected_model = models[model_index]['name']
                 print(f"Selected Ollama model: {selected_model}")
                 # Initialize LLM with selected Ollama model
-                llm = ChatOpenAI(model=selected_model, api_base="https://api.ollama.com")
+                llm = ChatOpenAI(model=selected_model, api_base="http://localhost:11434")
             except (IndexError, ValueError):
                 print("Invalid model choice. Exiting.")
                 sys.exit(1)
