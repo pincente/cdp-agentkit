@@ -16,7 +16,11 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 print("Loading environment variables...")
 load_dotenv()
 
-# Configure a file to persist the agent's CDP MPC Wallet Data.
+# Print environment variables
+print("CDP_API_KEY_NAME:", os.getenv("CDP_API_KEY_NAME"))
+print("CDP_API_KEY_PRIVATE_KEY:", os.getenv("CDP_API_KEY_PRIVATE_KEY"))
+print("OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
+print("NETWORK_ID:", os.getenv("NETWORK_ID"))
 wallet_data_file = "wallet_data.txt"
 
 
