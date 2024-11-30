@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import requests
 from dotenv import load_dotenv
 
 from langchain_core.messages import HumanMessage
@@ -37,10 +38,50 @@ print("NETWORK_ID:", os.getenv("NETWORK_ID"))
 wallet_data_file = "wallet_data.txt"
 
 
+def list_ollama_models():
+    """Fetch and display available models from the Ollama API."""
+    response = requests.get("https://api.ollama.com/models")
+    if response.status_code == 200:
+        models = response.json()
+        print("\nAvailable Ollama models:")
+        for i, model in enumerate(models, start=1):
+            print(f"{i}. {model['name']}")
+        return models
+    else:
+        print("Failed to fetch models from Ollama API.")
+        return []
+
 def initialize_agent():
     """Initialize the agent with CDP Agentkit."""
-    # Initialize LLM.
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    # Choose between OpenAI and Ollama
+    print("\nChoose LLM provider:")
+    print("1. OpenAI")
+    print("2. Ollama")
+    choice = input("Enter the number of your choice: ").strip()
+
+    if choice == "1":
+        # Initialize LLM with OpenAI
+        llm = ChatOpenAI(model="gpt-4o-mini")
+    elif choice == "2":
+        # List and choose Ollama model
+        models = list_ollama_models()
+        if models:
+            model_choice = input("Enter the number of the model you want to use: ").strip()
+            try:
+                model_index = int(model_choice) - 1
+                selected_model = models[model_index]['name']
+                print(f"Selected Ollama model: {selected_model}")
+                # Initialize LLM with selected Ollama model
+                llm = ChatOpenAI(model=selected_model, api_base="https://api.ollama.com")
+            except (IndexError, ValueError):
+                print("Invalid model choice. Exiting.")
+                sys.exit(1)
+        else:
+            print("No models available. Exiting.")
+            sys.exit(1)
+    else:
+        print("Invalid choice. Exiting.")
+        sys.exit(1)
 
     wallet_data = None
 
