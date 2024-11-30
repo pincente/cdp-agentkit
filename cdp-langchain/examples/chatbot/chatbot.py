@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from dotenv import load_dotenv
 
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
@@ -10,6 +11,9 @@ from langgraph.prebuilt import create_react_agent
 # Import CDP Agentkit Langchain Extension.
 from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
+
+# Load .env
+load_dotenv()
 
 # Configure a file to persist the agent's CDP MPC Wallet Data.
 wallet_data_file = "wallet_data.txt"
