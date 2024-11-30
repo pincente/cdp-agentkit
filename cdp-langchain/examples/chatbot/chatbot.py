@@ -48,7 +48,8 @@ def list_ollama_models():
             print(f"{i}. {model['name']}")
         return models
     else:
-        print("Failed to fetch models from Ollama API.")
+        print(f"Failed to fetch models from Ollama API. Status code: {response.status_code}")
+        print(f"Response content: {response.content}")
         return []
 
 def initialize_agent():
