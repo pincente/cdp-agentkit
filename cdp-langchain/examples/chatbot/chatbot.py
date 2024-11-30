@@ -17,7 +17,7 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 print("Loading environment variables...")
 load_dotenv()
 
-# Print environment variables with additional checks
+OLLAMA_API_HOST = os.getenv("OLLAMA_API_HOST", "http://localhost:11434")
 cdp_api_key_private_key = os.getenv("CDP_API_KEY_PRIVATE_KEY")
 if cdp_api_key_private_key:
     print("CDP_API_KEY_PRIVATE_KEY is loaded:")
@@ -41,7 +41,7 @@ wallet_data_file = "wallet_data.txt"
 def list_ollama_models():
     """Fetch and display available models from the Ollama API using OpenAI-compatible endpoint."""
     try:
-        response = requests.get("http://localhost:11434/v1/models")
+        response = requests.get(f"{OLLAMA_API_HOST}/v1/models")
         response.raise_for_status()
         models = response.json().get("data", [])
         print("\nAvailable Ollama models:")
@@ -73,7 +73,7 @@ def initialize_agent():
                 selected_model = models[model_index]['name']
                 print(f"Selected Ollama model: {selected_model}")
                 # Initialize LLM with selected Ollama model
-                llm = ChatOpenAI(model=selected_model, api_base="http://localhost:11434")
+                llm = ChatOpenAI(model=selected_model, api_base=OLLAMA_API_HOST)
             except (IndexError, ValueError):
                 print("Invalid model choice. Exiting.")
                 sys.exit(1)
