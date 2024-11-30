@@ -14,7 +14,7 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 
 # Load .env
 print("Loading environment variables...")
-load_dotenv(dotenv_path=".envcopy")
+load_dotenv()
 
 # Print environment variables with additional checks
 cdp_api_key_private_key = os.getenv("CDP_API_KEY_PRIVATE_KEY")
